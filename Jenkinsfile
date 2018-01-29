@@ -48,7 +48,7 @@ pipeline {
     }
     stage('Docker Stack Deploy'){
       steps{
-        sh "docker deploy -c ${params.DOCKER_COMPOSE_FILENAME} ${params.DOCKER_STACK_NAME}"
+        sh "docker stack deploy -c ${params.DOCKER_COMPOSE_FILENAME} ${params.DOCKER_STACK_NAME}"
       }
     }
   }
