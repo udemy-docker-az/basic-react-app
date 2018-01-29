@@ -23,14 +23,14 @@ pipeline {
     stage('npm build'){
       steps{
         sh "npm run build"
-        sh "npm run version"
+        sh "npm run --silent version > version.txt"
       }
     }
     stage('docker build'){
       environment {
         IMAGE = "${params.IMAGE_REPO_NAME}"
-	    VERSION = sh(returnStdout: true, script: 'npm run version').trim()
         COMMIT_TAG = sh(returnStdout: true, script: 'git rev-parse HEAD').trim().take(7)
+        VERSION = sh(returnStdout: true, script: 'cat version.txt').trim()
         BUILD_IMAGE_REPO_TAG = "${params.IMAGE_REPO_NAME}:${env.BUILD_TAG}"
       }
       steps{
