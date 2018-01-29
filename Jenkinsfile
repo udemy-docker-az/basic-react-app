@@ -43,6 +43,11 @@ pipeline {
           return params.PUSH_DOCKER_IMAGES
         }
       }
+      environment {
+        IMAGE = "${params.IMAGE_REPO_NAME}"
+        COMMIT_TAG = sh(returnStdout: true, script: 'git rev-parse HEAD').trim().take(7)
+        BUILD_IMAGE_REPO_TAG = "${params.IMAGE_REPO_NAME}:${env.BUILD_TAG}"
+      }
       steps{
         sh "docker push $BUILD_IMAGE_REPO_TAG"
         sh "docker push ${params.IMAGE_REPO_NAME}:$COMMIT_TAG"
