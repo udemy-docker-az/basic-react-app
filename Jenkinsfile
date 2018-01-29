@@ -24,6 +24,7 @@ pipeline {
       steps{
         sh "npm run build"
         sh "npm run --silent version > version.txt"
+        echo readJSON(file: 'package.json').version
       }
     }
     stage('docker build'){
