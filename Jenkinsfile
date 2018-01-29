@@ -23,12 +23,13 @@ pipeline {
     stage('npm build'){
       steps{
         sh "npm run build"
+        sh "npm run version"
       }
     }
     stage('docker build'){
       environment {
         IMAGE = "${params.IMAGE_REPO_NAME}"
-	VERSION = sh(returnStdout: true, script: 'npm run version').trim()
+	    VERSION = sh(returnStdout: true, script: 'npm run version').trim()
         COMMIT_TAG = sh(returnStdout: true, script: 'git rev-parse HEAD').trim().take(7)
         BUILD_IMAGE_REPO_TAG = "${params.IMAGE_REPO_NAME}:${env.BUILD_TAG}"
       }
