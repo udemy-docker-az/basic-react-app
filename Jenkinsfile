@@ -45,7 +45,9 @@ pipeline {
     }
     stage('Remove Previous Stack'){
       when{
-        return params.DOCKER_STACK_RM
+        expression {
+	  return params.DOCKER_STACK_RM
+	}
       }
       steps{
         sh "docker stack rm ${params.DOCKER_STACK_NAME}"
