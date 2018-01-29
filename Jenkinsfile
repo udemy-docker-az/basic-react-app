@@ -31,7 +31,7 @@ pipeline {
       environment {
         IMAGE = "${params.IMAGE_REPO_NAME}"
         COMMIT_TAG = sh(returnStdout: true, script: 'git rev-parse HEAD').trim().take(7)
-        VERSION = sh(returnStdout: true, script: 'cat version.txt').trim()
+        VERSION = readJSON(file: 'package.json').version
         BUILD_IMAGE_REPO_TAG = "${params.IMAGE_REPO_NAME}:${env.BUILD_TAG}"
       }
       steps{
