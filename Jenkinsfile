@@ -34,9 +34,9 @@ pipeline {
         BUILD_IMAGE_REPO_TAG = "${params.IMAGE_REPO_NAME}:${env.BUILD_TAG}"
       }
       steps{
-        sh "echo $VERSION"
         sh "docker build . -t $BUILD_IMAGE_REPO_TAG"
         sh "docker tag $BUILD_IMAGE_REPO_TAG ${params.IMAGE_REPO_NAME}:$COMMIT_TAG"
+        sh "docker tag $BUILD_IMAGE_REPO_TAG ${params.IMAGE_REPO_NAME}:$VERSION"
         sh "docker tag $BUILD_IMAGE_REPO_TAG ${params.IMAGE_REPO_NAME}:${params.LATEST_BUILD_TAG}"
       }
     }
@@ -49,11 +49,13 @@ pipeline {
       environment {
         IMAGE = "${params.IMAGE_REPO_NAME}"
         COMMIT_TAG = sh(returnStdout: true, script: 'git rev-parse HEAD').trim().take(7)
+        VERSION = sh(returnStdout: true, script: 'cat version.txt').trim()
         BUILD_IMAGE_REPO_TAG = "${params.IMAGE_REPO_NAME}:${env.BUILD_TAG}"
       }
       steps{
         sh "docker push $BUILD_IMAGE_REPO_TAG"
         sh "docker push ${params.IMAGE_REPO_NAME}:$COMMIT_TAG"
+        sh "docker tag $BUILD_IMAGE_REPO_TAG ${params.IMAGE_REPO_NAME}:$VERSION"
         sh "docker push ${params.IMAGE_REPO_NAME}:${params.LATEST_BUILD_TAG}"
       }
     }
