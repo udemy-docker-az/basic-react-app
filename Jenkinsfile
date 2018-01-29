@@ -33,10 +33,13 @@ pipeline {
       environment {
         IMAGE = "${params.IMAGE_REPO_NAME}"
         COMMIT_TAG = sh(returnStdout: true, script: 'git rev-parse HEAD').trim().take(7)
-        VERSION_TAG = readJSON( file: 'package.json').version
         BUILD_IMAGE_REPO_TAG = "${params.IMAGE_REPO_NAME}:${env.BUILD_TAG}"
       }
       steps{
+        script{
+          def VERSION_TAG = readJSON( file: 'package.json').version
+          echo VERSION_TAG
+        }
         sh "docker build . -t $BUILD_IMAGE_REPO_TAG"
         sh "docker tag $BUILD_IMAGE_REPO_TAG ${params.IMAGE_REPO_NAME}:$COMMIT_TAG"
         sh "docker tag $BUILD_IMAGE_REPO_TAG ${params.IMAGE_REPO_NAME}:$VERSION_TAG"
