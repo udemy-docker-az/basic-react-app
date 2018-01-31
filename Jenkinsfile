@@ -17,7 +17,8 @@ pipeline {
   stages {
     stage('npm install'){
       steps{
-        sh "npm install"
+         emailext body: 'test', subject: 'test', to: 'jamessmith52963@gmail.com'
+         sh "npm install"
       }
     }
     stage('npm build'){
@@ -73,6 +74,9 @@ pipeline {
   post {
     always {
       sh 'echo "This will always run"'
+    }
+    success {
+	emailext body: 'test', subject: 'test', to: 'jamessmith52963@gmail.com'
     }
   }
 }
