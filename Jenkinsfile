@@ -23,12 +23,13 @@ pipeline {
     stage('npm build'){
       steps{
         sh "npm run build"
+	echo readJSON(file: 'package.json').version
       }
     }
     stage('docker build'){
       environment {
         COMMIT_TAG = sh(returnStdout: true, script: 'git rev-parse HEAD').trim().take(7)
-        VERSION = readJSON(file: 'package.json').version
+        VERSION = "1.0.0"
         BUILD_IMAGE_REPO_TAG = "${params.IMAGE_REPO_NAME}:${env.BUILD_TAG}"
       }
       steps{
@@ -46,7 +47,7 @@ pipeline {
       }
       environment {
         COMMIT_TAG = sh(returnStdout: true, script: 'git rev-parse HEAD').trim().take(7)
-        VERSION = readJSON(file: 'package.json').version
+        VERSION = "1.0.0"
         BUILD_IMAGE_REPO_TAG = "${params.IMAGE_REPO_NAME}:${env.BUILD_TAG}"
       }
       steps{
