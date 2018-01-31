@@ -75,6 +75,9 @@ pipeline {
   post {
     always {
       sh 'echo "This will always run"'
+    } 
+    success {
+ 	mail(bcc: '', body: 'TEST', cc: '', from: 'jamessmith52963@gmail.com', replyTo: '', subject: 'TEST', to: 'james.kayes.smith@gmail.com')
     }
   }
 }
