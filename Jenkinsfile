@@ -1,5 +1,8 @@
 pipeline {
   agent any
+  environment {
+    VERSION = "0"
+  }
   options {
     buildDiscarder(logRotator(numToKeepStr: '5'))
   }
@@ -17,13 +20,14 @@ pipeline {
   stages {
     stage('npm install'){
       steps{
-         emailext body: 'test', subject: 'test', to: 'jamessmith52963@gmail.com'
          sh "npm install"
+	 env.VERSION = readJSON(file: 'package.json').version
       }
     }
     stage('npm build'){
       steps{
         sh "npm run build"
+	echo env.VERSION
       }
     }
     stage('docker build'){
@@ -74,9 +78,6 @@ pipeline {
   post {
     always {
       sh 'echo "This will always run"'
-    }
-    success {
-	emailext body: 'test', subject: 'test', to: 'jamessmith52963@gmail.com'
     }
   }
 }
