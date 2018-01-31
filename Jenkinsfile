@@ -1,8 +1,5 @@
 pipeline {
   agent any
-  environment {
-    VERSION = "0"
-  }
   options {
     buildDiscarder(logRotator(numToKeepStr: '5'))
   }
@@ -21,13 +18,11 @@ pipeline {
     stage('npm install'){
       steps{
          sh "npm install"
-	 env.VERSION = readJSON(file: 'package.json').version
       }
     }
     stage('npm build'){
       steps{
         sh "npm run build"
-	echo env.VERSION
       }
     }
     stage('docker build'){
