@@ -77,7 +77,10 @@ pipeline {
       sh 'echo "This will always run"'
     } 
     success {
- 	mail(bcc: '', body: 'TEST', cc: '', from: 'jamessmith52963@gmail.com', replyTo: '', subject: 'TEST', to: 'james.kayes.smith@gmail.com')
+ 	emailext(body: 'Test', subject: 'BUILD SUCCESS', to: 'james.kayes.smith@gmail.com')
+    }
+    error {
+    	emailext(body: 'Test', subject: 'BUILD ERROR ', to: 'james.kayes.smith@gmail.com')
     }
   }
 }
