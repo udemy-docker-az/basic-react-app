@@ -79,7 +79,7 @@ pipeline {
     success {
  	emailext(body: 'Test', subject: 'BUILD SUCCESS', to: 'james.kayes.smith@gmail.com')
     }
-    error {
+    failure {
     	emailext(body: 'Test', subject: 'BUILD ERROR ', to: 'james.kayes.smith@gmail.com')
     }
   }
