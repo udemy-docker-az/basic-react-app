@@ -17,8 +17,10 @@ pipeline {
   stages {
     stage('notify github'){
       steps{
-	properties([[$class: 'GithubProjectProperty',
+	script{
+	  properties([[$class: 'GithubProjectProperty',
 		     projectUrlStr: ${sh(returnStdout: true, script: 'git config --get remote.origin.url').trim()}]])	  
+	}
 	step([$class: 'GitHubIssueNotifier',
 	      issueAppend: true,
 	      issueLabel: '',
