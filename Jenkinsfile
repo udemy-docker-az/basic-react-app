@@ -16,12 +16,14 @@ pipeline {
   }
   stages {
     stage('notify github'){
+      steps{
 	properties([[$class: 'GithubProjectProperty',
 		     projectUrlStr: ${sh(returnStdout: true, script: 'git config --get remote.origin.url').trim()}]])	  
 	step([$class: 'GitHubIssueNotifier',
 	      issueAppend: true,
 	      issueLabel: '',
 	      issueTitle: '$JOB_NAME $BUILD_DISPLAY_NAME failed'])
+      }
     }
     stage('npm install'){
       steps{
