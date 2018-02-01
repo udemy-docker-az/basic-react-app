@@ -84,7 +84,7 @@ pipeline {
       sh "git config --global user.name 'Jenkins'"
       sh "git add test"
       sh "git commit -m 'test'"
-      sh "git push"
+      sh "git push origin HEAD:$BRANCH_NAME"
     }
   }
 }
