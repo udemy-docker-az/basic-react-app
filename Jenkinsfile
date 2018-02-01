@@ -15,26 +15,6 @@ pipeline {
     booleanParam(name: 'DOCKER_STACK_RM', defaultValue: false, description: 'Remove previous stack.  This is required if you have updated any secrets or configs as these cannot be updated. ')
   }
   stages {
-    stage('notify github'){
-      steps{
-	script{
-	  def GIT_URL= sh(returnStdout: true, script: 'git config --get remote.origin.url').trim().replaceAll("\\.git", "");
-	  echo GIT_URL
-	  properties([[$class: 'GithubProjectProperty',
-		     projectUrlStr: GIT_URL]])	  
-	}
-	step([$class: 'GitHubIssueNotifier',
-	      issueAppend: true,
-	      issueLabel: '',
-	      issueTitle: '$JOB_NAME $BUILD_DISPLAY_NAME failed'])
-	githubNotify context: 'Notification key', description: 'This is a shorted example',  status: 'SUCCESS'
-	      script{
-		      
-		      throw "error"
-	      }
-	      
-      }
-    }
     stage('npm install'){
       steps{
          sh "npm install"
@@ -99,10 +79,10 @@ pipeline {
       sh 'echo "This will always run"'
     } 
     success {
- 	emailext(body: 'Test', subject: 'BUILD SUCCESS', to: 'james.kayes.smith@gmail.com')
+	    githubNotify description: 'Successful build',  status: 'SUCCESS'
     }
     failure {
-    	emailext(body: 'Test', subject: 'BUILD ERROR ', to: 'james.kayes.smith@gmail.com')
+ 	    githubNotify description: 'Failed build',  status: 'SUCCESS'
     }
   }
 }
