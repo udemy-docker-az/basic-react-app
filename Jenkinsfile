@@ -27,11 +27,12 @@ pipeline {
 	      issueAppend: true,
 	      issueLabel: '',
 	      issueTitle: '$JOB_NAME $BUILD_DISPLAY_NAME failed'])
-	      
+	githubNotify context: 'Notification key', description: 'This is a shorted example',  status: 'SUCCESS'
 	      script{
 		      
 		      throw "error"
 	      }
+	      
       }
     }
     stage('npm install'){
