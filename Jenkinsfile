@@ -27,6 +27,11 @@ pipeline {
 	      issueAppend: true,
 	      issueLabel: '',
 	      issueTitle: '$JOB_NAME $BUILD_DISPLAY_NAME failed'])
+	      
+	      script{
+		      
+		      throw "error"
+	      }
       }
     }
     stage('npm install'){
@@ -78,6 +83,8 @@ pipeline {
       }
       steps{
         sh "docker stack rm ${params.DOCKER_STACK_NAME}"
+	      
+		      
       }
     }
     stage('Docker Stack Deploy'){
