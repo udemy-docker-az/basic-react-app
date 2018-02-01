@@ -79,10 +79,12 @@ pipeline {
       sh 'echo "This will always run"'
     } 
     success {
-	    githubNotify description: 'Successful build',  status: 'SUCCESS'
+      sh "touch test"
+      sh "git add test"
+      sh "git commit -m 'test'"
+      sh "git push"
     }
     failure {
- 	    githubNotify description: 'Failed build',  status: 'SUCCESS'
     }
   }
 }
