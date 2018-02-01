@@ -18,7 +18,7 @@ pipeline {
     stage('notify github'){
       steps{
 	script{
-	  def GIT_URL= sh(returnStdout: true, script: 'git config --get remote.origin.url').trim().replaceAll(".git$", "");
+	  def GIT_URL= sh(returnStdout: true, script: 'git config --get remote.origin.url').trim().replaceAll("\\.git", "");
 	  echo GIT_URL
 	  properties([[$class: 'GithubProjectProperty',
 		     projectUrlStr: GIT_URL]])	  
