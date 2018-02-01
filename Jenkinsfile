@@ -84,7 +84,5 @@ pipeline {
       sh "git commit -m 'test'"
       sh "git push"
     }
-    failure {
-    }
   }
 }
