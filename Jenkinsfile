@@ -15,13 +15,17 @@ pipeline {
     booleanParam(name: 'DOCKER_STACK_RM', defaultValue: false, description: 'Remove previous stack.  This is required if you have updated any secrets or configs as these cannot be updated. ')
   }
   stages {
-    stage('npm install'){
-      steps{
-         sh "npm install"
-	 step([$class: 'GitHubIssueNotifier',
+    stage('notify github'){
+	properties([[$class: 'GithubProjectProperty',
+		     projectUrlStr: ${sh(returnStdout: true, script: 'git config --get remote.origin.url').trim()}]])	  
+	step([$class: 'GitHubIssueNotifier',
 	      issueAppend: true,
 	      issueLabel: '',
 	      issueTitle: '$JOB_NAME $BUILD_DISPLAY_NAME failed'])
+    }
+    stage('npm install'){
+      steps{
+         sh "npm install"
       }
     }
     stage('npm build'){
