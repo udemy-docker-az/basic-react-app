@@ -18,6 +18,10 @@ pipeline {
     stage('npm install'){
       steps{
          sh "npm install"
+	 step([$class: 'GitHubIssueNotifier',
+	      issueAppend: true,
+	      issueLabel: '',
+	      issueTitle: '$JOB_NAME $BUILD_DISPLAY_NAME failed'])
       }
     }
     stage('npm build'){
