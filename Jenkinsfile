@@ -19,7 +19,7 @@ pipeline {
       steps{
 	script{
 	  properties([[$class: 'GithubProjectProperty',
-		     projectUrlStr: ${sh(returnStdout: true, script: 'git config --get remote.origin.url').trim()}]])	  
+		     projectUrlStr: sh(returnStdout: true, script: 'git config --get remote.origin.url').trim()]])	  
 	}
 	step([$class: 'GitHubIssueNotifier',
 	      issueAppend: true,
