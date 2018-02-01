@@ -18,8 +18,10 @@ pipeline {
     stage('notify github'){
       steps{
 	script{
+	  def GIT_URL=sh(returnStdout: true, script: 'git config --get remote.origin.url').trim()
+	  echo GIT_URL
 	  properties([[$class: 'GithubProjectProperty',
-		     projectUrlStr: sh(returnStdout: true, script: 'git config --get remote.origin.url').trim()]])	  
+		     projectUrlStr: GIT_URL]])	  
 	}
 	step([$class: 'GitHubIssueNotifier',
 	      issueAppend: true,
