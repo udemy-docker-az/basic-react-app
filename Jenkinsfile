@@ -22,6 +22,7 @@ pipeline {
     }
     stage('npm build'){
       steps{
+	sh "npm test -- --coverage"
         sh "npm run build"
       }
     }
@@ -77,14 +78,6 @@ pipeline {
   post {
     always {
       sh 'echo "This will always run"'
-    } 
-    success {
-      sh "touch test"
-      sh "git config --global user.email 'jenkins@jenkins.com'"
-      sh "git config --global user.name 'Jenkins'"
-      sh "git add test"
-      sh "git commit -m 'test'"
-      sh "git push origin HEAD:$BRANCH_NAME"
     }
   }
 }
