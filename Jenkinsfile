@@ -22,7 +22,6 @@ pipeline {
     }
     stage('npm build'){
       steps{
-	sh "npm test -- --coverage"
         sh "npm run build"
       }
     }
